@@ -1,23 +1,15 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
-import javax.swing.border.*;
 
-class Main extends JFrame implements ActionListener{
+class Lexical extends JFrame implements ActionListener{
     Container cont;
-    JMenuBar mb;
-    JMenu about;
-    JMenuItem si;
     JButton select , clear;
-
-    JTable t;
-    JPanel p1;
-    Object r[][];
+    JTable table;
+    JPanel panel;
+    Object[][] obj;
     String[] line;
     String[] keywords = {"program"
              ,"integer"
@@ -61,21 +53,21 @@ class Main extends JFrame implements ActionListener{
              ,"["
              ,"-"
              ,"/"};
-    int n = 0;
+    int number = 0;
     String file;
 
-    public Main(){
+    public Lexical(){
         super("pascalCompiler");
 
         cont = getContentPane();
         cont.setLayout(null);
 
 
-        p1 = new JPanel();
-        p1.setLayout(new BorderLayout());
-        p1.setBounds(50 , 80 , 410 , 295);
+        panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setBounds(50 , 80 , 410 , 295);
 
-        r = new Object[100][4];
+        obj = new Object[100][4];
 
         select = new JButton("Select Code");
         select.setBounds(120 , 400 , 120 , 40);
@@ -84,14 +76,14 @@ class Main extends JFrame implements ActionListener{
         clear.setBounds(260 , 400 , 120 , 40);
 
 
-        String title[]={"Token No." , "Name" , "Token Type" , "Line Number"};
-        t = new JTable(r , title);
+        String[] title ={"Token No." , "Name" , "Token Type" , "Line Number"};
+        table = new JTable(obj , title);
 
-        JTableHeader th = t.getTableHeader();
+        JTableHeader th = table.getTableHeader();
         th.setBackground(Color.gray);
 
-        JScrollPane sp = new JScrollPane(t);
-        p1.add(sp);
+        JScrollPane scr = new JScrollPane(table);
+        panel.add(scr);
 
         select.addActionListener(this);
         cont.add(select);
@@ -99,8 +91,8 @@ class Main extends JFrame implements ActionListener{
         clear.addActionListener(this);
         cont.add(clear);
 
-        cont.add(p1);
-        p1.setVisible(true);
+        cont.add(panel);
+        panel.setVisible(true);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500 , 500);
@@ -124,58 +116,55 @@ class Main extends JFrame implements ActionListener{
 
             for(int i = 0 ; i <= 99 ; i++)
                 for(int j = 0 ; j <= 3 ; j++)
-                    r[i][j] = "";
-            p1.revalidate();
-            p1.repaint();
-            n = 0;
+                    obj[i][j] = "";
+            panel.revalidate();
+            panel.repaint();
+            number = 0;
         }
     }
 
     public void getToken(String s , int i){
         String str = "";
-        boolean bool = true;
-        s = s.toLowerCase();
+        s = s.toUpperCase(Locale.ROOT);
         for(int i1 = 0 ; i1 < s.length(); i1++){
             if(Character.isLetterOrDigit(s.charAt(i1))){
                 str += s.charAt(i1);
             }
             else{
-
                 if(Arrays.asList(keywords).contains(str)){
-
-                    r[n][0] = n;
-                    r[n][1] = str;
-                    r[n][2] = "Keyword";
-                    r[n][3] = i;
-                    n++;
-                    p1.repaint();
+                    obj[number][0] = number;
+                    obj[number][1] = str;
+                    obj[number][2] = "Keyword";
+                    obj[number][3] = i;
+                    number++;
+                    panel.repaint();
                 }
                 else if(!str.equals("")){
                     try{
                         Integer.parseInt(str);
-                        r[n][0] = n;
-                        r[n][1] = str;
-                        r[n][2] = "Number";
-                        r[n][3] = i;
-                        n++;
-                        p1.repaint();
+                        obj[number][0] = number;
+                        obj[number][1] = str;
+                        obj[number][2] = "Number";
+                        obj[number][3] = i;
+                        number++;
+                        panel.repaint();
                     }catch(NumberFormatException ex){
-                        r[n][0] = n;
-                        r[n][1] = str;
-                        r[n][2] = "Identifier";
-                        r[n][3] = i;
-                        n++;
-                        p1.repaint();
+                        obj[number][0] = number;
+                        obj[number][1] = str;
+                        obj[number][2] = "Identifier";
+                        obj[number][3] = i;
+                        number++;
+                        panel.repaint();
                     }
                 }
 
                 if(Arrays.asList(keywords).contains("" + s.charAt(i1))){
-                    r[n][0] = n;
-                    r[n][1] = s.charAt(i1);
-                    r[n][2] = "KeyWord";
-                    r[n][3] = i;
-                    n++;
-                    p1.repaint();
+                    obj[number][0] = number;
+                    obj[number][1] = s.charAt(i1);
+                    obj[number][2] = "KeyWord";
+                    obj[number][3] = i;
+                    number++;
+                    panel.repaint();
                 }
                 str = "";
             }
@@ -184,6 +173,6 @@ class Main extends JFrame implements ActionListener{
 
 
     public static void main (String[] args) {
-        new Main();
+        new Lexical();
     }
 }
