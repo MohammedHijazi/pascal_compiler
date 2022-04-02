@@ -9,7 +9,7 @@ import javax.swing.table.*;
 import javax.swing.border.*;
 
 class Main extends JFrame implements ActionListener{
-    Container c;
+    Container cont;
     JMenuBar mb;
     JMenu about;
     JMenuItem si;
@@ -19,7 +19,7 @@ class Main extends JFrame implements ActionListener{
     JPanel p1;
     Object r[][];
     String[] line;
-    String[] kws = {"program"
+    String[] keywords = {"program"
              ,"integer"
              ,"boolean"
              ,"begin"
@@ -67,8 +67,8 @@ class Main extends JFrame implements ActionListener{
     public Main(){
         super("pascalCompiler");
 
-        c = getContentPane();
-        c.setLayout(null);
+        cont = getContentPane();
+        cont.setLayout(null);
 
 
         p1 = new JPanel();
@@ -94,12 +94,12 @@ class Main extends JFrame implements ActionListener{
         p1.add(sp);
 
         select.addActionListener(this);
-        c.add(select);
+        cont.add(select);
 
         clear.addActionListener(this);
-        c.add(clear);
+        cont.add(clear);
 
-        c.add(p1);
+        cont.add(p1);
         p1.setVisible(true);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -132,36 +132,36 @@ class Main extends JFrame implements ActionListener{
     }
 
     public void getToken(String s , int i){
-        String s1 = "";
-        boolean b = true;
+        String str = "";
+        boolean bool = true;
         s = s.toLowerCase();
         for(int i1 = 0 ; i1 < s.length(); i1++){
             if(Character.isLetterOrDigit(s.charAt(i1))){
-                s1 += s.charAt(i1);
+                str += s.charAt(i1);
             }
             else{
 
-                if(Arrays.asList(kws).contains(s1)){
+                if(Arrays.asList(keywords).contains(str)){
 
                     r[n][0] = n;
-                    r[n][1] = s1;
+                    r[n][1] = str;
                     r[n][2] = "Keyword";
                     r[n][3] = i;
                     n++;
                     p1.repaint();
                 }
-                else if(!s1.equals("")){
+                else if(!str.equals("")){
                     try{
-                        Integer.parseInt(s1);
+                        Integer.parseInt(str);
                         r[n][0] = n;
-                        r[n][1] = s1;
+                        r[n][1] = str;
                         r[n][2] = "Number";
                         r[n][3] = i;
                         n++;
                         p1.repaint();
                     }catch(NumberFormatException ex){
                         r[n][0] = n;
-                        r[n][1] = s1;
+                        r[n][1] = str;
                         r[n][2] = "Identifier";
                         r[n][3] = i;
                         n++;
@@ -169,7 +169,7 @@ class Main extends JFrame implements ActionListener{
                     }
                 }
 
-                if(Arrays.asList(kws).contains("" + s.charAt(i1))){
+                if(Arrays.asList(keywords).contains("" + s.charAt(i1))){
                     r[n][0] = n;
                     r[n][1] = s.charAt(i1);
                     r[n][2] = "KeyWord";
@@ -177,7 +177,7 @@ class Main extends JFrame implements ActionListener{
                     n++;
                     p1.repaint();
                 }
-                s1 = "";
+                str = "";
             }
         }
     }
