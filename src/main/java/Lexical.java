@@ -4,6 +4,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
 
+
 class Lexical extends JFrame implements ActionListener{
     Container cont;
     JButton select , clear;
@@ -11,28 +12,29 @@ class Lexical extends JFrame implements ActionListener{
     JPanel panel;
     Object[][] obj;
     String[] line;
-    String[] keywords = {"program"
-             ,"integer"
-             ,"boolean"
-             ,"begin"
-             ,"end"
-             ,"procedure"
-             ,"if"
-             ,"then"
-             ,"else"
-             ,"for"
-             ,"true"
-             ,"false"
-             ,"var"
+    String[] keywords = {
+             "PROGRAM"
+             ,"INTEGER"
+             ,"BOOLEAN"
+             ,"BEGIN"
+             ,"END"
+             ,"PROCEDURE"
+             ,"IF"
+             ,"THEN"
+             ,"ELSE"
+             ,"FOR"
+             ,"TRUE"
+             ,"FALSE"
+             ,"VAR"
              ,":"
-             ,"do"
-             ,"read"
-             ,"write"
-             ,"mod"
-             ,"div"
-             ,"and"
-             ,"or"
-             ,"not"
+             ,"DO"
+             ,"READ"
+             ,"WRITE"
+             ,"MOD"
+             ,"DIV"
+             ,"AND"
+             ,"OR"
+             ,"NOT"
              ,">"
              ,"<"
              ,">="
@@ -45,8 +47,8 @@ class Lexical extends JFrame implements ActionListener{
              ,";"
              ,","
              ,".."
-             ,"array"
-             ,"of"
+             ,"ARRAY"
+             ,"OF"
              ,"."
              ,"(" , ")"
              ,"]"
@@ -67,7 +69,7 @@ class Lexical extends JFrame implements ActionListener{
         panel.setLayout(new BorderLayout());
         panel.setBounds(50 , 80 , 410 , 295);
 
-        obj = new Object[100][4];
+        obj = new Object[100][3];
 
         select = new JButton("Select Code");
         select.setBounds(120 , 400 , 120 , 40);
@@ -76,7 +78,7 @@ class Lexical extends JFrame implements ActionListener{
         clear.setBounds(260 , 400 , 120 , 40);
 
 
-        String[] title ={"Token No." , "Name" , "Token Type" , "Line Number"};
+        String[] title ={ "Name" , "Token Type" , "Line Number"};
         table = new JTable(obj , title);
 
         JTableHeader th = table.getTableHeader();
@@ -104,7 +106,7 @@ class Lexical extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
 
         if(e.getSource() == select){
-            open op = new open();
+            openFile op = new openFile();
             file = op.getContents(op.openFile());
             line = file.split("\\n");
             for(int i = 0 ; i < line.length ; i++){
@@ -115,7 +117,7 @@ class Lexical extends JFrame implements ActionListener{
         else if(e.getSource() == clear){
 
             for(int i = 0 ; i <= 99 ; i++)
-                for(int j = 0 ; j <= 3 ; j++)
+                for(int j = 0 ; j <= 2 ; j++)
                     obj[i][j] = "";
             panel.revalidate();
             panel.repaint();
@@ -125,44 +127,40 @@ class Lexical extends JFrame implements ActionListener{
 
     public void getToken(String s , int i){
         String str = "";
-        s = s.toUpperCase(Locale.ROOT);
+        s = s.toUpperCase();
         for(int i1 = 0 ; i1 < s.length(); i1++){
             if(Character.isLetterOrDigit(s.charAt(i1))){
                 str += s.charAt(i1);
             }
             else{
                 if(Arrays.asList(keywords).contains(str)){
-                    obj[number][0] = number;
-                    obj[number][1] = str;
-                    obj[number][2] = "Keyword";
-                    obj[number][3] = i;
+                    obj[number][0] = str;
+                    obj[number][1] = "Keyword";
+                    obj[number][2] = i;
                     number++;
                     panel.repaint();
                 }
                 else if(!str.equals("")){
                     try{
                         Integer.parseInt(str);
-                        obj[number][0] = number;
-                        obj[number][1] = str;
-                        obj[number][2] = "Number";
-                        obj[number][3] = i;
+                        obj[number][0] = str;
+                        obj[number][1] = "Number";
+                        obj[number][2] = i;
                         number++;
                         panel.repaint();
                     }catch(NumberFormatException ex){
-                        obj[number][0] = number;
-                        obj[number][1] = str;
-                        obj[number][2] = "Identifier";
-                        obj[number][3] = i;
+                        obj[number][0] = str;
+                        obj[number][1] = "Identifier";
+                        obj[number][2] = i;
                         number++;
                         panel.repaint();
                     }
                 }
 
                 if(Arrays.asList(keywords).contains("" + s.charAt(i1))){
-                    obj[number][0] = number;
-                    obj[number][1] = s.charAt(i1);
-                    obj[number][2] = "KeyWord";
-                    obj[number][3] = i;
+                    obj[number][0] = s.charAt(i1);
+                    obj[number][1] = "Keyword";
+                    obj[number][2] = i;
                     number++;
                     panel.repaint();
                 }

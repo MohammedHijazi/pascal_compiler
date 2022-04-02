@@ -1,13 +1,11 @@
 import java.io.*;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.NoSuchElementException;
 import javax.swing.JFileChooser;
 
-class open{
+class openFile {
     ObjectInputStream input;
 
-    public open(){
+    public openFile(){
     }
 
     public File openFile(){

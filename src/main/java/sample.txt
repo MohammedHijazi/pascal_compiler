@@ -1,10 +1,7 @@
-PROGRAM SUMPROG
-VAR
-  X,Y,SUM
- BEGIN 
-READ(X,Y);
-SUM:= X+Y; 
-WRITE(SUM)
-END. 
+program one;
+var b : integer;
+begin
+b := 5*2-1;
+End.
  
 
